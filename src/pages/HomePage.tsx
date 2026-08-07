@@ -17,6 +17,7 @@ import { TradingChart } from '../components/TradingChart';
 import { LongShortBar } from '../components/ui/LongShortBar';
 import { TableSkeleton } from '../components/ui/Skeleton';
 import { ErrorState } from '../components/ui/ErrorState';
+import { CryptoImage } from '../components/ui/CryptoImage';
 
 interface HomePageProps {
   watchlistCoins: string[];
@@ -88,7 +89,7 @@ export const HomePage: React.FC<HomePageProps> = ({ watchlistCoins, onToggleWatc
         >
           <div className="flex items-center justify-between flex-wrap gap-3">
             <div className="flex items-center gap-3">
-              {btc && <img src={btc.image} alt={btc.name} className="w-8 h-8 rounded-full shadow-md" />}
+              {btc && <CryptoImage src={btc.image} alt={btc.name} symbol={btc.symbol} className="w-8 h-8 rounded-full shadow-md" />}
               <div>
                 <div className="flex items-center gap-2">
                   <h2 className="text-base font-bold font-display text-text-primary">{btc?.name || 'Bitcoin'}</h2>
@@ -286,7 +287,7 @@ export const HomePage: React.FC<HomePageProps> = ({ watchlistCoins, onToggleWatc
                     </td>
                     <td>
                       <div className="flex items-center gap-2.5">
-                        <img src={coin.image} alt={coin.name} className="w-7 h-7 rounded-full" loading="lazy" />
+                        <CryptoImage src={coin.image} alt={coin.name} symbol={coin.symbol} className="w-7 h-7 rounded-full" />
                         <div className="min-w-0">
                           <p className="text-xs font-bold text-text-primary group-hover:text-accent transition-colors truncate">
                             {coin.name}

@@ -81,17 +81,27 @@ export const TopBar: React.FC<TopBarProps> = ({
             <span className="font-display font-bold text-sm text-text-primary">CryptoCity</span>
           </div>
         </div>
-        {/* Search Input Trigger */}
-        <div className="flex items-center gap-3 flex-1 max-w-sm">
+        {/* Search Input Trigger (Desktop & Mobile Modes) */}
+        <div className="flex items-center gap-2 flex-1 justify-end sm:justify-start max-w-sm">
+          {/* Mobile Search Button */}
           <button
             onClick={onOpenSearch}
-            className="w-full flex items-center justify-between px-3.5 py-2 rounded-xl bg-bg-secondary/80 border border-border text-text-muted hover:border-accent/40 hover:text-text-primary transition-all text-xs group"
+            className="sm:hidden p-2 rounded-xl bg-bg-secondary border border-border text-accent hover:bg-bg-hover transition-colors"
+            title="Search assets"
           >
-            <div className="flex items-center gap-2">
-              <Search size={14} className="text-accent group-hover:scale-110 transition-transform" />
-              <span>Search assets, tickers, categories...</span>
+            <Search size={18} />
+          </button>
+
+          {/* Desktop Search Trigger */}
+          <button
+            onClick={onOpenSearch}
+            className="hidden sm:flex w-full items-center justify-between px-3.5 py-2 rounded-xl bg-bg-secondary/80 border border-border text-text-muted hover:border-accent/40 hover:text-text-primary transition-all text-xs group"
+          >
+            <div className="flex items-center gap-2 truncate">
+              <Search size={14} className="text-accent group-hover:scale-110 transition-transform shrink-0" />
+              <span className="truncate">Search assets, tickers, categories...</span>
             </div>
-            <kbd className="hidden sm:inline-block px-1.5 py-0.5 text-[10px] font-mono font-bold bg-bg-hover text-text-muted rounded border border-border">
+            <kbd className="hidden sm:inline-block px-1.5 py-0.5 text-[10px] font-mono font-bold bg-bg-hover text-text-muted rounded border border-border shrink-0">
               Ctrl+K
             </kbd>
           </button>

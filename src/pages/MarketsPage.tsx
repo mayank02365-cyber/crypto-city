@@ -13,6 +13,7 @@ import {
   ChevronRight,
 } from 'lucide-react';
 import { useTopCoins } from '../hooks/useCryptoData';
+import { CryptoImage } from '../components/ui/CryptoImage';
 import { SparklineChart } from '../components/SparklineChart';
 import { TableSkeleton } from '../components/ui/Skeleton';
 import { ErrorState } from '../components/ui/ErrorState';
@@ -179,7 +180,7 @@ export const MarketsPage: React.FC<MarketsPageProps> = ({ watchlistCoins, onTogg
                     <td className="text-center text-xs text-text-muted font-num">{coin.market_cap_rank}</td>
                     <td>
                       <div className="flex items-center gap-2.5">
-                        <img src={coin.image} alt={coin.name} className="w-7 h-7 rounded-full" />
+                        <CryptoImage src={coin.image} alt={coin.name} symbol={coin.symbol} className="w-7 h-7 rounded-full" />
                         <div>
                           <p className="text-xs font-bold text-text-primary group-hover:text-accent transition-colors">{coin.name}</p>
                           <p className="text-[10px] text-text-muted font-mono uppercase">{coin.symbol}</p>
