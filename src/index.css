@@ -1,0 +1,195 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --bg-primary: #080B11;
+    --bg-secondary: #111622;
+    --bg-card: #171D2C;
+    --bg-hover: #1E2538;
+    --bg-elevated: #242C40;
+
+    --accent: #60A5FA;
+    --accent-light: #93C5FD;
+    --accent-dark: #3B82F6;
+    --accent-glow: rgba(96, 165, 250, 0.22);
+
+    --positive: #10B981;
+    --negative: #F43F5E;
+    --warning: #F59E0B;
+
+    --text-primary: #FFFFFF;
+    --text-secondary: #94A3B8;
+    --text-muted: #64748B;
+
+    --border: rgba(255, 255, 255, 0.08);
+    --border-hover: rgba(255, 255, 255, 0.16);
+
+    --sidebar-width: 260px;
+    --sidebar-collapsed: 76px;
+    --topbar-height: 64px;
+
+    --radius-card: 24px;
+    --radius-widget: 22px;
+    --radius-btn: 14px;
+    --radius-modal: 28px;
+  }
+
+  body {
+    font-family: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.5;
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.2);
+  border-radius: 99px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(96, 165, 250, 0.4);
+}
+
+/* Floating Glass Navigation Bar */
+.glass-navbar {
+  background: rgba(17, 22, 34, 0.82);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: var(--radius-modal);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5), 0 0 30px rgba(96, 165, 250, 0.08);
+}
+
+/* Luxury Glass Card */
+.glass-card {
+  background: linear-gradient(145deg, rgba(23, 29, 44, 0.85), rgba(17, 22, 34, 0.95));
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-card);
+  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.4);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-card:hover {
+  border-color: rgba(96, 165, 250, 0.25);
+  box-shadow: 0 14px 44px rgba(0, 0, 0, 0.5), 0 0 28px rgba(96, 165, 250, 0.12);
+  transform: translateY(-2px);
+}
+
+.glass-modal {
+  background: rgba(17, 22, 34, 0.95);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-modal);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.65), 0 0 40px rgba(96, 165, 250, 0.15);
+}
+
+.glass-sidebar {
+  background: rgba(17, 22, 34, 0.90);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Premium Buttons */
+.btn-primary {
+  background: linear-gradient(135deg, #60A5FA 0%, #3B82F6 100%);
+  color: #080B11;
+  font-weight: 700;
+  border-radius: var(--radius-btn);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  display: inline-flex;
+  items-center: center;
+  justify-content: center;
+  box-shadow: 0 4px 16px rgba(59, 130, 246, 0.35);
+}
+
+.btn-primary:hover {
+  box-shadow: 0 8px 24px rgba(59, 130, 246, 0.55), 0 0 20px rgba(96, 165, 250, 0.3);
+  transform: translateY(-1px) scale(1.02);
+}
+
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-primary);
+  font-weight: 600;
+  border-radius: var(--radius-btn);
+  transition: all 0.25s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(96, 165, 250, 0.3);
+  transform: translateY(-1px);
+}
+
+/* Market Table Styling */
+.market-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.market-table th {
+  padding: 12px 16px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--border);
+}
+
+.market-table td {
+  padding: 14px 16px;
+  font-size: 13px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  transition: background-color 0.2s ease;
+}
+
+.market-table tr:hover td {
+  background-color: rgba(96, 165, 250, 0.05);
+}
+
+.font-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Glow Shadow Utilities */
+.shadow-glow-accent {
+  box-shadow: 0 0 24px rgba(96, 165, 250, 0.25);
+}
+
+.shadow-elevated {
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.55);
+}
+
+/* Keyframe Animations */
+@keyframes pulseGlow {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.05); }
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 4s ease-in-out infinite;
+}
