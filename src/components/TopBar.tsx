@@ -14,12 +14,14 @@ import {
   LogOut,
   TrendingUp,
   Shield,
+  Menu,
 } from 'lucide-react';
 import type { GlobalMarketStats, FearAndGreedData } from '../services/cryptoApi';
 
 interface TopBarProps {
   onOpenSearch: () => void;
   onOpenAuth: () => void;
+  onOpenMobileDrawer?: () => void;
   globalStats?: GlobalMarketStats;
   fearGreedData?: FearAndGreedData;
   user?: { email: string; name?: string } | null;
@@ -38,6 +40,7 @@ function formatCompact(num: number): string {
 export const TopBar: React.FC<TopBarProps> = ({
   onOpenSearch,
   onOpenAuth,
+  onOpenMobileDrawer,
   globalStats,
   fearGreedData,
   user,
@@ -63,6 +66,21 @@ export const TopBar: React.FC<TopBarProps> = ({
   return (
     <header className="sticky top-3 z-40 mx-4 md:mx-6 my-2">
       <div className="glass-navbar px-4 md:px-6 h-[64px] flex items-center justify-between gap-4 shadow-elevated">
+        {/* Mobile Hamburger & Logo */}
+        <div className="flex items-center gap-2 md:hidden">
+          <button
+            onClick={onOpenMobileDrawer}
+            className="p-2 rounded-xl text-text-muted hover:text-text-primary hover:bg-bg-hover transition-colors"
+          >
+            <Menu size={20} />
+          </button>
+          <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate('/')}>
+            <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-accent to-accent-dark flex items-center justify-center">
+              <Zap className="text-white w-4 h-4" fill="white" />
+            </div>
+            <span className="font-display font-bold text-sm text-text-primary">CryptoCity</span>
+          </div>
+        </div>
         {/* Search Input Trigger */}
         <div className="flex items-center gap-3 flex-1 max-w-sm">
           <button

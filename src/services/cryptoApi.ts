@@ -428,6 +428,22 @@ const FALLBACK_NEWS: CryptoNewsArticle[] = [
   }
 ];
 
+async function fetchProxyOrDirect(endpointPath: string): Promise<any> {
+  const proxyUrl = `/api/crypto?path=${encodeURIComponent(endpointPath)}`;
+  const directUrl = `https://api.coingecko.com/api/v3/${endpointPath}`;
+
+  try {
+    const res = await fetch(proxyUrl);
+    if (res.ok) return await res.json();
+  } catch (err) {
+    // Fallback to direct fetch
+  }
+
+  const directRes = await fetch(directUrl);
+  if (!directRes.ok) throw new Error(`HTTP ${directRes.status}`);
+  return await directRes.json();
+}
+
 export const cryptoApi = {
   async getGlobalMarketStats(): Promise<GlobalMarketStats> {
     const cacheKey = 'global_stats';
@@ -436,9 +452,7 @@ export const cryptoApi = {
     }
 
     try {
-      const res = await fetch('https://api.coingecko.com/api/v3/global');
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const data = await res.json();
+      const data = await fetchProxyOrDirect('global');
       const result: GlobalMarketStats = {
         total_market_cap_usd: data.data.total_market_cap.usd,
         total_volume_24h_usd: data.data.total_volume.usd,
@@ -463,14 +477,12 @@ export const cryptoApi = {
     }
 
     try {
-      let url = `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=${perPage}&page=${page}&sparkline=true&price_change_percentage=7d`;
+      let endpoint = `coins/markets?vs_currency=usd&order=market_cap_desc&per_page=${perPage}&page=${page}&sparkline=true&price_change_percentage=7d`;
       if (category && category !== 'all') {
-        url += `&category=${category}`;
+        endpoint += `&category=${category}`;
       }
 
-      const res = await fetch(url);
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const data: CoinData[] = await res.json();
+      const data: CoinData[] = await fetchProxyOrDirect(endpoint);
       API_CACHE[cacheKey] = { timestamp: Date.now(), data };
       return data;
     } catch (err) {
@@ -480,9 +492,7 @@ export const cryptoApi = {
 
   async getCoinDetails(coinId: string): Promise<any> {
     try {
-      const res = await fetch(`https://api.coingecko.com/api/v3/coins/${coinId}?localization=false&tickers=true&market_data=true&community_data=true&sparkline=true`);
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      return await res.json();
+      return await fetchProxyOrDirect(`coins/${coinId}?localization=false&tickers=true&market_data=true&community_data=true&sparkline=true`);
     } catch (err) {
       const fallbackCoin = FALLBACK_COINS.find(c => c.id === coinId) || FALLBACK_COINS[0];
       return {
@@ -526,9 +536,7 @@ export const cryptoApi = {
     }
 
     try {
-      const res = await fetch(`https://api.coingecko.com/api/v3/coins/${coinId}/market_chart?vs_currency=usd&days=${daysStr}`);
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const data = await res.json();
+      const data = await fetchProxyOrDirect(`coins/${coinId}/market_chart?vs_currency=usd&days=${daysStr}`);
       const points = data.prices.map(([timestamp, price]: [number, number]) => ({
         timestamp,
         price: Number(price.toFixed(4)),

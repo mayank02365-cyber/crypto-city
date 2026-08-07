@@ -3,6 +3,8 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Sidebar } from './components/layout/Sidebar';
 import { TopBar } from './components/TopBar';
+import { BottomNav } from './components/layout/BottomNav';
+import { MobileDrawer } from './components/layout/MobileDrawer';
 import { SearchModal } from './components/SearchModal';
 import { AuthModal } from './components/AuthModal';
 
@@ -39,6 +41,7 @@ function AppLayout() {
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isAuthOpen, setIsAuthOpen] = useState(false);
+  const [isMobileDrawerOpen, setIsMobileDrawerOpen] = useState(false);
 
   const { watchlist, toggleWatchlist } = useWatchlist();
   const { user, signIn, signOut, isAuthenticated } = useAuth();
@@ -46,8 +49,8 @@ function AppLayout() {
   const { data: fearGreed } = useFearAndGreed();
 
   return (
-    <div className="min-h-screen bg-bg-primary text-text-primary flex font-sans antialiased selection:bg-accent selection:text-bg-primary">
-      {/* Sidebar Navigation */}
+    <div className="min-h-screen bg-bg-primary text-text-primary flex font-sans antialiased selection:bg-accent selection:text-bg-primary pb-16 md:pb-0">
+      {/* Desktop Sidebar Navigation */}
       <Sidebar
         isCollapsed={isSidebarCollapsed}
         onToggle={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
@@ -62,6 +65,7 @@ function AppLayout() {
         <TopBar
           onOpenSearch={() => setIsSearchOpen(true)}
           onOpenAuth={() => setIsAuthOpen(true)}
+          onOpenMobileDrawer={() => setIsMobileDrawerOpen(true)}
           globalStats={globalStats}
           fearGreedData={fearGreed}
           user={user}
@@ -116,6 +120,15 @@ function AppLayout() {
           </Routes>
         </main>
       </div>
+
+      {/* Mobile Navigation Suite */}
+      <BottomNav onOpenMobileDrawer={() => setIsMobileDrawerOpen(true)} />
+      <MobileDrawer
+        isOpen={isMobileDrawerOpen}
+        onClose={() => setIsMobileDrawerOpen(false)}
+        user={user}
+        onSignOut={signOut}
+      />
 
       {/* Global Modals */}
       <SearchModal isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
