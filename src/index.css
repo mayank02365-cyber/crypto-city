@@ -194,50 +194,97 @@
   animation: pulseGlow 4s ease-in-out infinite;
 }
 
-/* GPU-Accelerated Blue Orbital Light Animation */
-@keyframes orbitalTravel {
+/* GPU-Accelerated Blue Neon Light Sweep Animation (No orb, no border, pure light sweep) */
+@keyframes neonLightSweep {
   0% {
-    top: 0%;
-    left: 0%;
-    transform: translate(-50%, -50%);
+    transform: translateX(-20%) scaleX(0.85);
+    opacity: 0.45;
   }
-  30% {
-    top: 0%;
-    left: 100%;
-    transform: translate(-50%, -50%);
+  25% {
+    transform: translateX(35%) scaleX(1.15);
+    opacity: 0.95;
   }
-  45% {
-    top: 100%;
-    left: 100%;
-    transform: translate(-50%, -50%);
+  50% {
+    transform: translateX(95%) scaleX(0.90);
+    opacity: 0.55;
   }
   75% {
-    top: 100%;
-    left: 0%;
-    transform: translate(-50%, -50%);
+    transform: translateX(40%) scaleX(1.10);
+    opacity: 0.85;
   }
   100% {
-    top: 0%;
-    left: 0%;
-    transform: translate(-50%, -50%);
+    transform: translateX(-20%) scaleX(0.85);
+    opacity: 0.45;
   }
 }
 
-.orbital-light-runner {
+.neon-sweep-beam-container {
   position: absolute;
-  width: 12px;
-  height: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  animation: orbitalTravel 10s linear infinite;
-  will-change: top, left, transform;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   pointer-events: none;
 }
 
+.neon-sweep-beam {
+  position: absolute;
+  top: -4px;
+  left: 0;
+  width: 480px;
+  height: 28px;
+  background: radial-gradient(
+    ellipse at center,
+    #4DA6FF 0%,
+    #1677FF 40%,
+    rgba(0, 100, 255, 0.25) 70%,
+    transparent 100%
+  );
+  filter: blur(24px);
+  border-radius: 9999px;
+  animation: neonLightSweep 8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  will-change: transform, opacity;
+  pointer-events: none;
+}
+
+.neon-sweep-trail {
+  position: absolute;
+  top: 0px;
+  left: -40px;
+  width: 600px;
+  height: 36px;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(77, 166, 255, 0.4) 0%,
+    rgba(22, 119, 255, 0.2) 50%,
+    transparent 100%
+  );
+  filter: blur(36px);
+  border-radius: 9999px;
+  animation: neonLightSweep 8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  animation-delay: -0.15s;
+  will-change: transform, opacity;
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+@media (max-width: 768px) {
+  .neon-sweep-beam {
+    width: 280px;
+    height: 20px;
+    filter: blur(18px);
+  }
+  .neon-sweep-trail {
+    width: 360px;
+    height: 24px;
+    filter: blur(24px);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .orbital-light-runner {
-    animation-duration: 30s;
-    opacity: 0.35;
+  .neon-sweep-beam,
+  .neon-sweep-trail {
+    animation-duration: 24s;
+    opacity: 0.3;
   }
 }
