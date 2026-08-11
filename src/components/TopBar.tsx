@@ -18,6 +18,8 @@ import {
 } from 'lucide-react';
 import type { GlobalMarketStats, FearAndGreedData } from '../services/cryptoApi';
 
+import { OrbitalLight } from './ui/OrbitalLight';
+
 interface TopBarProps {
   onOpenSearch: () => void;
   onOpenAuth: () => void;
@@ -65,7 +67,8 @@ export const TopBar: React.FC<TopBarProps> = ({
 
   return (
     <header className="sticky top-3 z-40 mx-4 md:mx-6 my-2">
-      <div className="glass-navbar px-4 md:px-6 h-[64px] flex items-center justify-between gap-4 shadow-elevated">
+      <OrbitalLight>
+        <div className="glass-navbar px-4 md:px-6 h-[64px] flex items-center justify-between gap-4 shadow-elevated">
         {/* Mobile Hamburger & Logo */}
         <div className="flex items-center gap-2 md:hidden">
           <button
@@ -294,6 +297,7 @@ export const TopBar: React.FC<TopBarProps> = ({
           </div>
         </div>
       </div>
-    </header>
+    </OrbitalLight>
+  </header>
   );
 };

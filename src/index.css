@@ -193,3 +193,51 @@
 .animate-pulse-glow {
   animation: pulseGlow 4s ease-in-out infinite;
 }
+
+/* GPU-Accelerated Blue Orbital Light Animation */
+@keyframes orbitalTravel {
+  0% {
+    top: 0%;
+    left: 0%;
+    transform: translate(-50%, -50%);
+  }
+  30% {
+    top: 0%;
+    left: 100%;
+    transform: translate(-50%, -50%);
+  }
+  45% {
+    top: 100%;
+    left: 100%;
+    transform: translate(-50%, -50%);
+  }
+  75% {
+    top: 100%;
+    left: 0%;
+    transform: translate(-50%, -50%);
+  }
+  100% {
+    top: 0%;
+    left: 0%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+.orbital-light-runner {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: orbitalTravel 10s linear infinite;
+  will-change: top, left, transform;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orbital-light-runner {
+    animation-duration: 30s;
+    opacity: 0.35;
+  }
+}
