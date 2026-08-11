@@ -3,12 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import { motion } from '../components/ui/Motion';
 import {
   TrendingUp,
-  TrendingDown,
   Star,
   ArrowUpRight,
   ArrowDownRight,
   ChevronRight,
   PieChart,
+  Flame,
+  Zap,
 } from 'lucide-react';
 import { useTopCoins, useGlobalMarketStats, useFearAndGreed, useCoinChartData } from '../hooks/useCryptoData';
 import { SparklineChart } from '../components/SparklineChart';
@@ -52,23 +53,15 @@ export const HomePage: React.FC<HomePageProps> = ({ watchlistCoins, onToggleWatc
   const { data: globalStats } = useGlobalMarketStats();
   const { data: fearGreed } = useFearAndGreed();
 
-  // Dynamic Query for timeframe data
+  // Dynamic Query for timeframe chart data
   const { data: chartData, isLoading: loadingChart } = useCoinChartData(selectedHeroCoin, heroTimeframe);
 
   const btc = useMemo(() => coins?.find((c) => c.id === selectedHeroCoin) || coins?.[0], [coins, selectedHeroCoin]);
 
-  const topGainers = useMemo(
+  const topMovers = useMemo(
     () =>
       coins
-        ? [...coins].sort((a, b) => b.price_change_percentage_24h - a.price_change_percentage_24h).slice(0, 4)
-        : [],
-    [coins]
-  );
-
-  const topLosers = useMemo(
-    () =>
-      coins
-        ? [...coins].sort((a, b) => a.price_change_percentage_24h - b.price_change_percentage_24h).slice(0, 4)
+        ? [...coins].sort((a, b) => Math.abs(b.price_change_percentage_24h) - Math.abs(a.price_change_percentage_24h)).slice(0, 3)
         : [],
     [coins]
   );
@@ -122,8 +115,9 @@ export const HomePage: React.FC<HomePageProps> = ({ watchlistCoins, onToggleWatc
             </div>
           </div>
 
-          <div className="flex items-baseline gap-3">
-            <span className="text-2xl font-extrabold font-display font-num text-text-primary">
+          {/* Dominant Price Typography */}
+          <div className="flex items-baseline gap-3 flex-wrap">
+            <span className="text-3xl md:text-4xl font-extrabold font-display font-num text-text-primary tracking-tight">
               {btc ? formatPrice(btc.current_price) : '$0.00'}
             </span>
             <span
@@ -136,7 +130,7 @@ export const HomePage: React.FC<HomePageProps> = ({ watchlistCoins, onToggleWatc
               {(btc?.price_change_percentage_24h ?? 0) >= 0 ? <ArrowUpRight size={12} /> : <ArrowDownRight size={12} />}
               {formatPct(btc?.price_change_percentage_24h)}
             </span>
-            <span className="text-xs text-text-muted">{heroTimeframe} Trend</span>
+            <span className="text-xs text-text-muted font-mono">{heroTimeframe} Market Performance</span>
           </div>
 
           <div className="pt-2">
@@ -161,8 +155,9 @@ export const HomePage: React.FC<HomePageProps> = ({ watchlistCoins, onToggleWatc
           </div>
         </motion.div>
 
-        {/* Right Column (4 cols): Portfolio & Market Sentiment Widgets */}
-        <div className="xl:col-span-4 space-y-5">
+        {/* Right Column (4 cols): Portfolio, Sentiment & Top Movers Widgets */}
+        <div className="xl:col-span-4 space-y-4">
+          {/* Portfolio Overview Widget */}
           <motion.div
             className="glass-card p-5 space-y-4"
             initial={{ opacity: 0, y: 10 }}
@@ -183,7 +178,7 @@ export const HomePage: React.FC<HomePageProps> = ({ watchlistCoins, onToggleWatc
             </div>
 
             <div>
-              <p className="text-2xs text-text-muted mb-0.5">Total Balance</p>
+              <p className="text-[11px] text-text-muted mb-0.5">Total Valuation</p>
               <p className="text-2xl font-extrabold font-display font-num text-text-primary">$48,250.80</p>
               <div className="flex items-center gap-2 mt-1">
                 <span className="text-xs font-semibold font-num text-positive flex items-center gap-0.5">
@@ -192,25 +187,30 @@ export const HomePage: React.FC<HomePageProps> = ({ watchlistCoins, onToggleWatc
               </div>
             </div>
 
-            <div className="space-y-2 pt-2 border-t border-border">
-              <div className="flex items-center justify-between text-xs">
-                <span className="text-text-muted">Bitcoin (BTC)</span>
-                <span className="font-num font-semibold text-text-primary">$28,500.00 (59%)</span>
-              </div>
-              <div className="h-1.5 w-full bg-bg-secondary rounded-full overflow-hidden">
-                <div className="h-full bg-accent rounded-full" style={{ width: '59%' }} />
+            <div className="space-y-2.5 pt-2 border-t border-border">
+              <div className="space-y-1">
+                <div className="flex items-center justify-between text-xs">
+                  <span className="text-text-muted">Bitcoin (BTC)</span>
+                  <span className="font-num font-semibold text-text-primary">$28,500.00 (59%)</span>
+                </div>
+                <div className="h-1.5 w-full bg-bg-secondary rounded-full overflow-hidden">
+                  <div className="h-full bg-accent rounded-full transition-all duration-500" style={{ width: '59%' }} />
+                </div>
               </div>
 
-              <div className="flex items-center justify-between text-xs">
-                <span className="text-text-muted">Ethereum (ETH)</span>
-                <span className="font-num font-semibold text-text-primary">$12,400.00 (26%)</span>
-              </div>
-              <div className="h-1.5 w-full bg-bg-secondary rounded-full overflow-hidden">
-                <div className="h-full bg-purple-500 rounded-full" style={{ width: '26%' }} />
+              <div className="space-y-1">
+                <div className="flex items-center justify-between text-xs">
+                  <span className="text-text-muted">Ethereum (ETH)</span>
+                  <span className="font-num font-semibold text-text-primary">$12,400.00 (26%)</span>
+                </div>
+                <div className="h-1.5 w-full bg-bg-secondary rounded-full overflow-hidden">
+                  <div className="h-full bg-purple-500 rounded-full transition-all duration-500" style={{ width: '26%' }} />
+                </div>
               </div>
             </div>
           </motion.div>
 
+          {/* Market Sentiment Widget */}
           <motion.div
             className="glass-card p-4 flex items-center justify-between gap-4"
             initial={{ opacity: 0, y: 10 }}
@@ -223,13 +223,59 @@ export const HomePage: React.FC<HomePageProps> = ({ watchlistCoins, onToggleWatc
               size="sm"
             />
             <div className="flex flex-col text-right">
-              <span className="text-2xs text-text-muted font-bold uppercase tracking-wider">Market Sentiment</span>
+              <span className="text-[10px] text-text-muted font-bold uppercase tracking-wider">Market Sentiment</span>
               <span className="text-xl font-bold font-display font-num text-text-primary">
                 {fearGreed?.value || 72} / 100
               </span>
               <span className="text-xs font-semibold text-accent capitalize">
                 {fearGreed?.value_classification || 'Greed'}
               </span>
+            </div>
+          </motion.div>
+
+          {/* Top Movers Widget (Eliminating right-side empty space) */}
+          <motion.div
+            className="glass-card p-4 space-y-3"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, delay: 0.2 }}
+          >
+            <div className="flex items-center justify-between border-b border-border pb-2">
+              <div className="flex items-center gap-1.5">
+                <Flame size={14} className="text-accent" />
+                <h4 className="text-xs font-bold text-text-primary uppercase tracking-wider">Top 24h Movers</h4>
+              </div>
+              <button onClick={() => navigate('/trending')} className="text-[10px] text-accent hover:underline font-semibold">
+                View All
+              </button>
+            </div>
+
+            <div className="space-y-2">
+              {topMovers.map((coin) => {
+                const isUp = coin.price_change_percentage_24h >= 0;
+                return (
+                  <div
+                    key={coin.id}
+                    onClick={() => navigate(`/coin/${coin.id}`)}
+                    className="flex items-center justify-between p-2 rounded-xl bg-bg-secondary/60 hover:bg-bg-hover cursor-pointer transition-colors"
+                  >
+                    <div className="flex items-center gap-2.5 min-w-0">
+                      <CryptoImage src={coin.image} alt={coin.name} symbol={coin.symbol} className="w-6 h-6 rounded-full" />
+                      <div className="min-w-0">
+                        <p className="text-xs font-bold text-text-primary truncate">{coin.name}</p>
+                        <p className="text-[10px] text-text-muted font-mono uppercase">{coin.symbol}</p>
+                      </div>
+                    </div>
+
+                    <div className="text-right">
+                      <p className="text-xs font-mono font-bold text-text-primary">{formatPrice(coin.current_price)}</p>
+                      <span className={`text-[10px] font-mono font-bold ${isUp ? 'text-positive' : 'text-negative'}`}>
+                        {formatPct(coin.price_change_percentage_24h)}
+                      </span>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </motion.div>
         </div>

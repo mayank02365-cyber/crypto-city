@@ -110,35 +110,36 @@ export const TopBar: React.FC<TopBarProps> = ({
           </button>
         </div>
 
-        {/* Center Live Ticker Chips */}
-        <div className="hidden lg:flex items-center gap-3 text-xs font-mono">
-          {/* Market Cap Chip */}
-          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-bg-secondary/90 border border-border">
+        {/* Center Unified Market Stats Ticker */}
+        <div className="hidden lg:flex items-center gap-4 text-xs font-mono bg-bg-secondary/60 px-3.5 py-1.5 rounded-xl border border-border">
+          <div className="flex items-center gap-1.5">
             <span className="text-text-muted">Cap:</span>
             <span className="font-bold text-text-primary font-num">
               {globalStats ? formatCompact(globalStats.total_market_cap_usd) : '$2.54T'}
             </span>
           </div>
 
-          {/* 24h Vol Chip */}
-          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-bg-secondary/90 border border-border">
+          <span className="text-border">|</span>
+
+          <div className="flex items-center gap-1.5">
             <span className="text-text-muted">24h Vol:</span>
             <span className="font-bold text-text-primary font-num">
               {globalStats ? formatCompact(globalStats.total_volume_24h_usd) : '$94.8B'}
             </span>
           </div>
 
-          {/* BTC Dominance Chip */}
-          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-bg-secondary/90 border border-border">
+          <span className="text-border">|</span>
+
+          <div className="flex items-center gap-1.5">
             <span className="text-text-muted">BTC.D:</span>
             <span className="font-bold text-accent font-num">{globalStats?.btc_dominance || 54.8}%</span>
           </div>
+        </div>
 
-          {/* Portfolio Balance Chip */}
-          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-accent/15 border border-accent/30 text-accent">
-            <Briefcase size={12} />
-            <span className="font-bold font-num">$48,250.80</span>
-          </div>
+        {/* Portfolio Quick Chip */}
+        <div className="hidden xl:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-accent/15 border border-accent/30 text-accent font-mono text-xs">
+          <Briefcase size={13} />
+          <span className="font-bold font-num">$48,250.80</span>
         </div>
 
         {/* Right Controls */}

@@ -44,7 +44,7 @@ export const FearGreedGauge: React.FC<FearGreedGaugeProps> = ({ value, classific
     ].join(' ');
     
     startA = endA;
-    return <path key={i} d={d} fill="none" stroke={sec.color} strokeWidth={strokeWidth} strokeLinecap="butt" />;
+    return <path key={i} d={d} fill="none" stroke={sec.color} strokeWidth={strokeWidth} strokeLinecap="butt" opacity={0.9} />;
   });
 
   const needleAngle = 180 - (value / 100) * 180;
@@ -55,7 +55,7 @@ export const FearGreedGauge: React.FC<FearGreedGaugeProps> = ({ value, classific
 
   return (
     <div className="flex flex-col items-center justify-center">
-      <svg width={width} height={height} viewBox={`0 0 ${width} ${height}`}>
+      <svg width={width} height={height} viewBox={`0 0 ${width} ${height}`} className="overflow-visible">
         {realArcs}
         <line
           x1={cx}
@@ -63,14 +63,15 @@ export const FearGreedGauge: React.FC<FearGreedGaugeProps> = ({ value, classific
           x2={nx}
           y2={ny}
           stroke="#60A5FA"
-          strokeWidth={2.5}
+          strokeWidth={3}
           strokeLinecap="round"
+          className="transition-all duration-700 ease-out"
         />
-        <circle cx={cx} cy={cy} r={4.5} fill="#60A5FA" />
+        <circle cx={cx} cy={cy} r={5} fill="#60A5FA" stroke="#080B11" strokeWidth={2} />
       </svg>
       <div className="-mt-1 flex flex-col items-center">
-        <span className="font-mono font-bold text-text-primary text-base leading-tight">{value}</span>
-        <span className="text-xs text-text-secondary leading-tight capitalize font-medium">{classification}</span>
+        <span className="font-mono font-extrabold text-text-primary text-base leading-tight font-num">{value}</span>
+        <span className="text-[11px] text-accent leading-tight capitalize font-semibold tracking-tight">{classification}</span>
       </div>
     </div>
   );

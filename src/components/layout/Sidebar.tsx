@@ -27,7 +27,7 @@ const NavItem: React.FC<NavItemProps> = ({ to, icon, label, isCollapsed }) => {
       className={({ isActive }) => 
         `flex items-center gap-3 px-3.5 py-2.5 mx-2 rounded-xl transition-all relative group ${
           isActive 
-            ? 'bg-accent/15 text-accent font-semibold border-l-2 border-accent shadow-glow-accent' 
+            ? 'bg-gradient-to-r from-accent/20 to-accent/5 text-accent font-semibold border-l-3 border-accent shadow-glow-accent' 
             : 'text-text-secondary hover:bg-bg-hover hover:text-text-primary'
         }`
       }
